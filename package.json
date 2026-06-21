@@ -1,0 +1,7 @@
+{
+  "name": "ilovecv",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "IloveCV - AI-powered CV and cover letter builder for PitaExam.co.ke"
+}
