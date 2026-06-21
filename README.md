@@ -23,16 +23,24 @@ If Step 5's checklist throws an error you don't recognize, paste it here and I'l
 ilovecv-project/
 ├── api/
 │   └── generate.js      ← serverless function, talks to Gemini, holds your API key safely
-├── public/
-│   └── index.html       ← the entire app (UI + logic)
-├── vercel.json          ← tells Vercel how to route requests
+├── index.html           ← the entire app (UI + logic), served as your homepage
 ├── package.json
 └── .gitignore
 ```
 
+No `vercel.json` is needed for this structure. Vercel auto-detects:
+- Any file directly in the project root (like `index.html`) as a static asset, served at `/`
+- Any `.js` file inside `/api` as a serverless function, automatically served at the matching `/api/...` path — `api/generate.js` becomes `/api/generate` with zero configuration
+
 Your Gemini API key NEVER goes in `index.html`. It lives only as an environment
 variable on Vercel's servers, read by `api/generate.js`. The browser only ever
 talks to `/api/generate` on your own domain — never directly to Google.
+
+**If you previously had a `vercel.json` with `builds`/`routes` in it, delete
+it.** That legacy configuration format is known to cause exactly the
+`/api/generate` 404 issue some people hit — mixing the older `builds`/`routes`
+style with Vercel's newer auto-detection can silently drop the API route even
+though the static site deploys and loads fine. Simpler is more reliable here.
 
 ---
 
